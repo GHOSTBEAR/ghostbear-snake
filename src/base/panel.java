@@ -13,22 +13,21 @@ import java.util.Formatter;
 import java.util.Scanner;
 
 class panel extends JPanel implements ActionListener, KeyListener {
-    // private int difficulty = Integer.parseInt(JOptionPane.showInputDialog(" Choose difficulty in ms \n Recommended: 250 or 125"));
     private snake s;
     private Timer timer;
     private ArrayList<String> snakesBody = new ArrayList<>();
-    private ArrayList<String> oldValueX = new ArrayList<>();
-    private ArrayList<String> oldValueY = new ArrayList<>();
+    private ArrayList<Integer> oldValueX = new ArrayList<>();
+    private ArrayList<Integer> oldValueY = new ArrayList<>();
     private JTextField controller;
     private JLabel score;
     private int snakeY = 100, snakeX = 100,
-                userScore = 0,
-                snakeDirection = 39,
-                scoreX = 10 + (10 * (int) (Math.random() * 19)),
-                scoreY = 40 + (10 * (int) (Math.random() * 19)),
-                colorRed = 0,
-                colorBlue = 0,
-                colorGreen = 255;
+            userScore = 0,
+            snakeDirection = 39,
+            scoreX = 10 + (10 * (int) (Math.random() * 19)),
+            scoreY = 40 + (10 * (int) (Math.random() * 19)),
+            colorRed = 0,
+            colorBlue = 0,
+            colorGreen = 255;
 
     panel(int x) {
         this.setLayout(new FlowLayout());
@@ -49,23 +48,32 @@ class panel extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(g);
 
         // Check if snake head goes into body
-        for (int i = 0; i < snakesBody.size(); i++) {
-            int a = Integer.parseInt(oldValueX.get((oldValueX.size() - 2) - i));
-            int b = Integer.parseInt(oldValueY.get((oldValueY.size() - 2) - i));
-            if (a == snakeX && b == snakeY) {
-                death(userScore);
+        try {
+            for (int i = 0; i < snakesBody.size(); i++) {
+                int a = oldValueX.get((oldValueX.size() - 2) - i);
+                int b = oldValueY.get((oldValueY.size() - 2) - i);
+                if (a == snakeX && b == snakeY) {
+                    System.out.println("Death by body");
+                    death(userScore);
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error: Nothing to worry about\nLine: 61");
         }
 
         // Draws snakes body
-        for (int i = 0; i < snakesBody.size(); i++) {
-            int a = Integer.parseInt(oldValueX.get((oldValueX.size() - 2) - i));
-            int b = Integer.parseInt(oldValueY.get((oldValueY.size() - 2) - i));
-            if (i < 254) {
-                s = new snake(g, a, b, i, 255, i);
-            } else {
-                s = new snake(g, a, b, 255 - (i - 253), 255, 255 - (i - 253));
+        try {
+            for (int i = 0; i < snakesBody.size(); i++) {
+                int a = oldValueX.get((oldValueX.size() - 2) - i);
+                int b = oldValueY.get((oldValueY.size() - 2) - i);
+                if (i < 254) {
+                    s = new snake(g, a, b, i, 255, i);
+                } else {
+                    s = new snake(g, a, b, 255 - (i - 253), 255, 255 - (i - 253));
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error: Nothing to worry about\nLine: 76");
         }
 
         // Draws score box and snake
@@ -89,38 +97,55 @@ class panel extends JPanel implements ActionListener, KeyListener {
         // Draws outer line
         g.setColor(new Color(0, 255, 0));
         g.drawRect(9, 39, 201, 201);
+        try {
+            for (int i = oldValueX.size() - snakesBody.size() - 5; i > 0; i--) {
+                oldValueX.remove(i);
+                // System.out.print(oldValueX);
+            }
+        } catch (Exception e) {
+            System.out.print("Error: Nothing to worry about\nLine: 106");
+        }
+
+        try {
+            for (int i = oldValueY.size() - snakesBody.size() - 5; i > 0; i--) {
+                oldValueY.remove(i);
+                // System.out.print(oldValueY);
+            }
+        } catch (Exception e) {
+            System.out.print("Error: Nothing to worry about\nLine: 115");
+        }
     }
 
     public void actionPerformed(ActionEvent e) {
         // Making snake move right
         if (snakeDirection == 39) {
             snakeX += 10;
-            oldValueX.add(snakeX + "");
-            oldValueY.add(snakeY + "");
+            oldValueX.add(snakeX);
+            oldValueY.add(snakeY);
             repaint();
         }
 
         // Making snake move left
         if (snakeDirection == 37) {
             snakeX -= 10;
-            oldValueX.add(snakeX + "");
-            oldValueY.add(snakeY + "");
+            oldValueX.add(snakeX);
+            oldValueY.add(snakeY);
             repaint();
         }
 
         // Making snake move up
         if (snakeDirection == 38) {
             snakeY -= 10;
-            oldValueX.add(snakeX + "");
-            oldValueY.add(snakeY + "");
+            oldValueX.add(snakeX);
+            oldValueY.add(snakeY);
             repaint();
         }
 
         // Making snake move down
         if (snakeDirection == 40) {
             snakeY += 10;
-            oldValueX.add(snakeX + "");
-            oldValueY.add(snakeY + "");
+            oldValueX.add(snakeX);
+            oldValueY.add(snakeY);
             repaint();
         }
     }
@@ -129,6 +154,26 @@ class panel extends JPanel implements ActionListener, KeyListener {
     }
 
     public void keyPressed(KeyEvent e) {
+        // Make snake go right
+        if (e.getKeyCode() == 39) {
+            snakeDirection = 39;
+        }
+
+        // Make snake go left
+        if (e.getKeyCode() == 37) {
+            snakeDirection = 37;
+        }
+
+        // Make snake go up
+        if (e.getKeyCode() == 38) {
+            snakeDirection = 38;
+        }
+
+        // Make snake go down
+        if (e.getKeyCode() == 40) {
+            snakeDirection = 40;
+        }
+
         // Cheat to get more body parts
         if (e.getKeyCode() == 65) {
             snakesBody.add("");
@@ -161,25 +206,7 @@ class panel extends JPanel implements ActionListener, KeyListener {
     }
 
     public void keyReleased(KeyEvent e) {
-        // Make snake go right
-        if (e.getKeyCode() == 39) {
-            snakeDirection = 39;
-        }
 
-        // Make snake go left
-        if (e.getKeyCode() == 37) {
-            snakeDirection = 37;
-        }
-
-        // Make snake go up
-        if (e.getKeyCode() == 38) {
-            snakeDirection = 38;
-        }
-
-        // Make snake go down
-        if (e.getKeyCode() == 40) {
-            snakeDirection = 40;
-        }
     }
 
     public void death(int score) {
@@ -189,7 +216,7 @@ class panel extends JPanel implements ActionListener, KeyListener {
         try {
             File x = new File("highscore.txt");
             Scanner sc = new Scanner(x);
-            while(sc.hasNext()) {
+            while (sc.hasNext()) {
                 int tovig = Integer.parseInt(sc.next());
                 if (tovig < score) {
                     System.out.println("New High Score: " + score);
@@ -210,7 +237,6 @@ class panel extends JPanel implements ActionListener, KeyListener {
                 System.out.println("Error");
             }
         }
-
         System.exit(0);
     }
 }
