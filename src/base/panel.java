@@ -18,7 +18,6 @@ class panel extends JPanel implements ActionListener, KeyListener {
     private ArrayList<String> snakesBody = new ArrayList<>();
     private ArrayList<Integer> oldValueX = new ArrayList<>();
     private ArrayList<Integer> oldValueY = new ArrayList<>();
-    private JTextField controller;
     private JLabel score;
     private int snakeY = 100, snakeX = 100,
             userScore = 0,
@@ -32,12 +31,8 @@ class panel extends JPanel implements ActionListener, KeyListener {
     panel(int x) {
         this.setLayout(new FlowLayout());
         this.setBackground(new Color(0, 0, 0));
-        controller = new JTextField();
-        controller.addKeyListener(this);
-        controller.setBackground(new Color(255, 255, 255, 0));
-        add(controller);
+        addKeyListener(this);
         score = new JLabel("Score: ");
-        score.addKeyListener(this);
         score.setForeground(new Color(0, 255, 0));
         add(score);
         timer = new Timer(x, this);
@@ -46,6 +41,7 @@ class panel extends JPanel implements ActionListener, KeyListener {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        this.requestFocus();
 
         // Check if snake head goes into body
         try {
@@ -53,7 +49,7 @@ class panel extends JPanel implements ActionListener, KeyListener {
                 int a = oldValueX.get((oldValueX.size() - 2) - i);
                 int b = oldValueY.get((oldValueY.size() - 2) - i);
                 if (a == snakeX && b == snakeY) {
-                    System.out.println("Death by body");
+                    System.out.println("Killed in Action");
                     death(userScore);
                 }
             }
@@ -177,14 +173,12 @@ class panel extends JPanel implements ActionListener, KeyListener {
         // Cheat to get more body parts
         if (e.getKeyCode() == 65) {
             snakesBody.add("");
-            controller.setText("");
         }
 
         // Cheat to get higher score
         if (e.getKeyCode() == 83) {
             userScore++;
             score.setText("Score: " + userScore);
-            controller.setText("");
         }
 
         // Change color of snake head
@@ -192,7 +186,6 @@ class panel extends JPanel implements ActionListener, KeyListener {
             colorRed = (int) (Math.random() * 255);
             colorBlue = (int) (Math.random() * 255);
             colorGreen = (int) (Math.random() * 255);
-            controller.setText("");
             repaint();
         }
 
@@ -200,7 +193,6 @@ class panel extends JPanel implements ActionListener, KeyListener {
         if (e.getKeyCode() == 81) {
             scoreX = s.randomizer(10, 10, 19);
             scoreY = s.randomizer(40, 10, 19);
-            controller.setText("");
             repaint();
         }
     }
