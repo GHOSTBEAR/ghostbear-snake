@@ -9,7 +9,6 @@ class snake {
     private ArrayList<Integer> oldY = new ArrayList<>();
     private int r, g, b;
     private int x, y;
-    private death d;
 
     snake() {
         r = 0;
@@ -22,6 +21,7 @@ class snake {
     void paint(Graphics g) {
         g.setColor(new Color(r, this.g, b));
         g.fillRect(x, y, 9, 9);
+        g.setColor(new Color(0, 255, 0));
         for (int i = 0; i < body.size(); i++) {
             int a = oldX.get((oldX.size() - 2) - i);
             int b = oldY.get((oldY.size() - 2) - i);
@@ -30,6 +30,7 @@ class snake {
     }
 
     void check() {
+        death d;
         if (y > 231 || x > 201 || y < 39 || x < 9) {
             System.out.println("Out of bounds");
             d = new death(score.score);

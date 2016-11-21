@@ -15,7 +15,6 @@ class panel extends JPanel implements ActionListener, KeyListener {
     private int direction = 37 + ((int)(Math.random() * 4));
 
     panel(int x) {
-        this.setLayout(new FlowLayout());
         this.setBackground(new Color(0, 0, 0));
         addKeyListener(this);
         p = new score();

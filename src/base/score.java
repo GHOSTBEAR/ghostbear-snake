@@ -13,7 +13,6 @@ class score {
     void paint(Graphics g) {
         g.setColor(Color.RED);
         g.fillRect(x, y, 9, 9);
-        System.out.println(score);
     }
 
     int getScore() {
