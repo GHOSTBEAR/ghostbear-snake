@@ -1,7 +1,5 @@
 package base;
 
-import javafx.stage.Screen;
-
 import javax.swing.*;
 
 public class base {
