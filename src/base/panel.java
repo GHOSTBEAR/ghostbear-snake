@@ -10,7 +10,6 @@ import java.awt.event.KeyListener;
 class panel extends JPanel implements ActionListener, KeyListener {
     private snake s;
     private score p;
-    private Timer timer;
     private JLabel score;
     private int direction = 37 + ((int)(Math.random() * 4));
 
@@ -22,17 +21,17 @@ class panel extends JPanel implements ActionListener, KeyListener {
         score = new JLabel("Score: ");
         score.setForeground(new Color(0, 255, 0));
         add(score);
-        timer = new Timer(x, this);
+        Timer timer = new Timer(x, this);
         timer.start();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.requestFocus();
+        p.paint(g);
         s.paint(g);
         s.check();
         s.clean();
-        p.paint(g);
 
         g.setColor(new Color(0, 255, 0));
         g.drawRect(9, 39, 201, 201);

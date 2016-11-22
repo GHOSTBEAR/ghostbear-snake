@@ -30,10 +30,10 @@ class snake {
     }
 
     void check() {
-        death d;
+
         if (y > 231 || x > 201 || y < 39 || x < 9) {
             System.out.println("Out of bounds");
-            d = new death(score.score);
+            new death(score.score);
         }
 
         for (int i = 0; i < body.size(); i++) {
@@ -41,7 +41,7 @@ class snake {
             int b = oldY.get((oldY.size() - 2) - i);
             if (a == x && b == y) {
                 System.out.println("Killed in Action");
-                d = new death(score.score);
+                new death(score.score);
             }
         }
     }

@@ -3,7 +3,6 @@ package base;
 import javax.swing.*;
 
 class window extends JFrame {
-    panel p;
     window() {
         int val;
         try {
@@ -13,7 +12,7 @@ class window extends JFrame {
         }
         switch (val) {
             case 1:
-                p = new panel(110);
+                panel p = new panel(110);
                 add(p);
                 break;
             case 2:

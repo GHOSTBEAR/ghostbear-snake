@@ -5,7 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.Formatter;
 import java.util.Scanner;
 
-public class death {
+class death {
+    // TODO: Maybe make an interface for this
     death(int score) {
         // Death by metal
         System.out.println("Game over");
