@@ -1,78 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="module_ghostbear-snake" default="compile.module.ghostbear-snake">
-  <dirname property="module.ghostbear-snake.basedir" file="${ant.file.module_ghostbear-snake}"/>
+<project name="module_ghostbear-Snake" default="compile.module.ghostbear-Snake">
+  <dirname property="module.ghostbear-Snake.basedir" file="${ant.file.module_ghostbear-Snake}"/>
   
-  <property name="module.jdk.home.ghostbear-snake" value="${project.jdk.home}"/>
-  <property name="module.jdk.bin.ghostbear-snake" value="${project.jdk.bin}"/>
-  <property name="module.jdk.classpath.ghostbear-snake" value="${project.jdk.classpath}"/>
+  <property name="module.jdk.home.ghostbear-Snake" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.ghostbear-Snake" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.ghostbear-Snake" value="${project.jdk.classpath}"/>
   
-  <property name="compiler.args.ghostbear-snake" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  <property name="compiler.args.ghostbear-Snake" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
   
-  <property name="ghostbear-snake.output.dir" value="${module.ghostbear-snake.basedir}/out/production/ghostbear-snake"/>
-  <property name="ghostbear-snake.testoutput.dir" value="${module.ghostbear-snake.basedir}/out/test/ghostbear-snake"/>
+  <property name="ghostbear-Snake.output.dir" value="${module.ghostbear-Snake.basedir}/out/production/ghostbear-Snake"/>
+  <property name="ghostbear-Snake.testoutput.dir" value="${module.ghostbear-Snake.basedir}/out/test/ghostbear-Snake"/>
   
-  <path id="ghostbear-snake.module.bootclasspath">
+  <path id="ghostbear-Snake.module.bootclasspath">
     <!-- Paths to be included in compilation bootclasspath -->
   </path>
   
-  <path id="ghostbear-snake.module.production.classpath">
-    <path refid="${module.jdk.classpath.ghostbear-snake}"/>
+  <path id="ghostbear-Snake.module.production.classpath">
+    <path refid="${module.jdk.classpath.ghostbear-Snake}"/>
   </path>
   
-  <path id="ghostbear-snake.runtime.production.module.classpath">
-    <pathelement location="${ghostbear-snake.output.dir}"/>
+  <path id="ghostbear-Snake.runtime.production.module.classpath">
+    <pathelement location="${ghostbear-Snake.output.dir}"/>
   </path>
   
-  <path id="ghostbear-snake.module.classpath">
-    <path refid="${module.jdk.classpath.ghostbear-snake}"/>
-    <pathelement location="${ghostbear-snake.output.dir}"/>
+  <path id="ghostbear-Snake.module.classpath">
+    <path refid="${module.jdk.classpath.ghostbear-Snake}"/>
+    <pathelement location="${ghostbear-Snake.output.dir}"/>
   </path>
   
-  <path id="ghostbear-snake.runtime.module.classpath">
-    <pathelement location="${ghostbear-snake.testoutput.dir}"/>
-    <pathelement location="${ghostbear-snake.output.dir}"/>
+  <path id="ghostbear-Snake.runtime.module.classpath">
+    <pathelement location="${ghostbear-Snake.testoutput.dir}"/>
+    <pathelement location="${ghostbear-Snake.output.dir}"/>
   </path>
   
   
-  <patternset id="excluded.from.module.ghostbear-snake">
+  <patternset id="excluded.from.module.ghostbear-Snake">
     <patternset refid="ignored.files"/>
   </patternset>
   
-  <patternset id="excluded.from.compilation.ghostbear-snake">
-    <patternset refid="excluded.from.module.ghostbear-snake"/>
+  <patternset id="excluded.from.compilation.ghostbear-Snake">
+    <patternset refid="excluded.from.module.ghostbear-Snake"/>
   </patternset>
   
-  <path id="ghostbear-snake.module.sourcepath">
-    <dirset dir="${module.ghostbear-snake.basedir}">
+  <path id="ghostbear-Snake.module.sourcepath">
+    <dirset dir="${module.ghostbear-Snake.basedir}">
       <include name="src"/>
     </dirset>
   </path>
   
   
-  <target name="compile.module.ghostbear-snake" depends="compile.module.ghostbear-snake.production,compile.module.ghostbear-snake.tests" description="Compile module ghostbear-snake"/>
+  <target name="compile.module.ghostbear-Snake" depends="compile.module.ghostbear-Snake.production,compile.module.ghostbear-Snake.tests" description="Compile module ghostbear-Snake"/>
   
-  <target name="compile.module.ghostbear-snake.production" depends="register.custom.compilers" description="Compile module ghostbear-snake; production classes">
-    <mkdir dir="${ghostbear-snake.output.dir}"/>
-    <javac2 destdir="${ghostbear-snake.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ghostbear-snake}/javac">
-      <compilerarg line="${compiler.args.ghostbear-snake}"/>
-      <bootclasspath refid="ghostbear-snake.module.bootclasspath"/>
-      <classpath refid="ghostbear-snake.module.production.classpath"/>
-      <src refid="ghostbear-snake.module.sourcepath"/>
-      <patternset refid="excluded.from.compilation.ghostbear-snake"/>
+  <target name="compile.module.ghostbear-Snake.production" depends="register.custom.compilers" description="Compile module ghostbear-Snake; production classes">
+    <mkdir dir="${ghostbear-Snake.output.dir}"/>
+    <javac2 destdir="${ghostbear-Snake.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.ghostbear-Snake}/javac">
+      <compilerarg line="${compiler.args.ghostbear-Snake}"/>
+      <bootclasspath refid="ghostbear-Snake.module.bootclasspath"/>
+      <classpath refid="ghostbear-Snake.module.production.classpath"/>
+      <src refid="ghostbear-Snake.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.ghostbear-Snake"/>
     </javac2>
     
-    <copy todir="${ghostbear-snake.output.dir}">
-      <fileset dir="${module.ghostbear-snake.basedir}/src">
+    <copy todir="${ghostbear-Snake.output.dir}">
+      <fileset dir="${module.ghostbear-Snake.basedir}/src">
         <patternset refid="compiler.resources"/>
         <type type="file"/>
       </fileset>
     </copy>
   </target>
   
-  <target name="compile.module.ghostbear-snake.tests" depends="register.custom.compilers,compile.module.ghostbear-snake.production" description="compile module ghostbear-snake; test classes" unless="skip.tests"/>
+  <target name="compile.module.ghostbear-Snake.tests" depends="register.custom.compilers,compile.module.ghostbear-Snake.production" description="compile module ghostbear-Snake; test classes" unless="skip.tests"/>
   
-  <target name="clean.module.ghostbear-snake" description="cleanup module">
-    <delete dir="${ghostbear-snake.output.dir}"/>
-    <delete dir="${ghostbear-snake.testoutput.dir}"/>
+  <target name="clean.module.ghostbear-Snake" description="cleanup module">
+    <delete dir="${ghostbear-Snake.output.dir}"/>
+    <delete dir="${ghostbear-Snake.testoutput.dir}"/>
   </target>
 </project>

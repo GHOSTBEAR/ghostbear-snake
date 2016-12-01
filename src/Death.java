@@ -1,13 +1,11 @@
-package base;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Formatter;
 import java.util.Scanner;
 
-class death {
+class Death {
     // TODO: Maybe make an interface for this
-    death(int score) {
+    Death(int score) {
         // Death by metal
         System.out.println("Game over");
         System.out.println("Your Score: " + score);

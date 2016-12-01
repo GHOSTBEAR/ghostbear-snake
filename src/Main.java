@@ -1,11 +1,9 @@
-package base;
-
 import javax.swing.*;
 import java.awt.*;
 
-public class base {
+public class Main {
     public static void main(String[] args) {
-        window h = new window();
+        Window h = new Window();
         h.setVisible(true);
         h.setPreferredSize(new Dimension(220, 270));
         h.setMinimumSize(new Dimension(220, 270));

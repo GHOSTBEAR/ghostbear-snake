@@ -1,11 +1,9 @@
-package base;
-
 import java.awt.*;
 
-class score {
+class Score {
     static int score;
     private int x, y;
-    score(){
+    Score(){
         newX();
         newY();
     }

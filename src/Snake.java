@@ -1,16 +1,14 @@
-package base;
-
 import java.awt.*;
 import java.util.ArrayList;
 
-class snake {
+class Snake {
     private ArrayList<String> body = new ArrayList<>();
     private ArrayList<Integer> oldX = new ArrayList<>();
     private ArrayList<Integer> oldY = new ArrayList<>();
     private int r, g, b;
     private int x, y;
 
-    snake() {
+    Snake() {
         r = 0;
         g = 255;
         b = 0;
@@ -33,7 +31,7 @@ class snake {
 
         if (y > 231 || x > 201 || y < 39 || x < 9) {
             System.out.println("Out of bounds");
-            new death(score.score);
+            new Death(Score.score);
         }
 
         for (int i = 0; i < body.size(); i++) {
@@ -41,7 +39,7 @@ class snake {
             int b = oldY.get((oldY.size() - 2) - i);
             if (a == x && b == y) {
                 System.out.println("Killed in Action");
-                new death(score.score);
+                new Death(Score.score);
             }
         }
     }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="game-snake" default="all">
+<project name="game-Snake" default="all">
   
   
-  <property file="ghostbear-snake.properties"/>
+  <property file="ghostbear-Snake.properties"/>
   <!-- Uncomment the following property if no tests compilation is needed -->
   <!-- 
   <property name="skip.tests" value="true"/>
@@ -110,15 +110,15 @@
   
   <!-- Modules -->
   
-  <import file="${basedir}/module_ghostbear-snake.xml"/>
+  <import file="${basedir}/module_ghostbear-Snake.xml"/>
   
   <target name="init" description="Build initialization">
     <!-- Perform any build initialization in this target -->
   </target>
   
-  <target name="clean" depends="clean.module.ghostbear-snake" description="cleanup all"/>
+  <target name="clean" depends="clean.module.ghostbear-Snake" description="cleanup all"/>
   
-  <target name="build.modules" depends="init, clean, compile.module.ghostbear-snake" description="build all modules"/>
+  <target name="build.modules" depends="init, clean, compile.module.ghostbear-Snake" description="build all modules"/>
   
   <target name="all" depends="build.modules" description="build all"/>
 </project>
