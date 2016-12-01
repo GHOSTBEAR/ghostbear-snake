@@ -85,27 +85,27 @@ class panel extends JPanel implements ActionListener, KeyListener {
 
     public void keyPressed(KeyEvent e) {
         // Make snake go right
-        if (e.getKeyCode() == 39) {
+        if (e.getKeyCode() == 39 || e.getKeyCode() == 68) {
             direction = 39;
         }
 
         // Make snake go left
-        if (e.getKeyCode() == 37) {
+        if (e.getKeyCode() == 37 || e.getKeyCode() == 65) {
             direction = 37;
         }
 
         // Make snake go up
-        if (e.getKeyCode() == 38) {
+        if (e.getKeyCode() == 38 || e.getKeyCode() == 87) {
             direction = 38;
         }
 
         // Make snake go down
-        if (e.getKeyCode() == 40) {
+        if (e.getKeyCode() == 40 || e.getKeyCode() == 83) {
             direction = 40;
         }
 
         // Cheat to get more body parts
-        if (e.getKeyCode() == 65) {
+        if (e.getKeyCode() == 66) {
             s.setBody();
         }
 
