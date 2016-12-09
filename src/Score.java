@@ -34,6 +34,6 @@ class Score {
     }
 
     void newY() {
-        y = 40 + (10 * (int) (Math.random() * 19));
+        y = 20 + (10 * (int) (Math.random() * 19));
     }
 }

@@ -29,7 +29,7 @@ class Snake {
 
     void check() {
 
-        if (y > 231 || x > 201 || y < 39 || x < 9) {
+        if (y > 211 || x > 201 || y < 19 || x < 9) {
             System.out.println("Out of bounds");
             new Death(Score.score);
         }

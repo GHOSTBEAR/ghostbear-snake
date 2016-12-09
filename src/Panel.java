@@ -4,21 +4,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 class Panel extends JPanel implements ActionListener, KeyListener {
     private Snake s;
     private Score p;
-    private JLabel score;
-    private int direction = 37 + ((int)(Math.random() * 4));
+    private Hallon h;
+    private int direction = 37 + ((int) (Math.random() * 4));
+    private Font ofl;
 
     Panel(int x) {
         this.setBackground(new Color(0, 0, 0));
+        this.setLayout(new FlowLayout());
         addKeyListener(this);
+        ofl = new Font("PressStart2P-Regular", Font.PLAIN, 8);
         p = new Score();
         s = new Snake();
-        score = new JLabel("Score: ");
-        score.setForeground(new Color(0, 255, 0));
-        add(score);
+        h = new Hallon();
         Timer timer = new Timer(x, this);
         timer.start();
     }
@@ -27,12 +31,22 @@ class Panel extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(g);
         this.requestFocus();
         p.paint(g);
+        h.paint(g);
         s.paint(g);
         s.check();
         s.clean();
 
+        g.setFont(ofl);
+        g.drawString("Score: " + p.getScore(), 10, 14);
+        g.drawString("Highscore: " + getHighScore(), 100, 14);
+
         g.setColor(new Color(0, 255, 0));
-        g.drawRect(9, 39, 201, 201);
+        g.drawRect(9, 19, 201, 201);
+
+        for (int i = 0; i < 230; i += 2) {
+            g.setColor(new Color(50, 50, 50, 50));
+            g.drawLine(0, i, 220, i);
+        }
 
         // Checks if Snake goes on Score
         if (s.getX() == p.getX() && s.getY() == p.getY()) {
@@ -40,7 +54,12 @@ class Panel extends JPanel implements ActionListener, KeyListener {
             p.newX();
             p.newY();
             s.setBody();
-            score.setText("Score: " + p.getScore());
+        }
+
+        if (s.getX() == h.getX() && s.getY() == h.getY()) {
+            h.setScore();
+            h.setStart();
+            s.setBody();
         }
     }
 
@@ -78,6 +97,26 @@ class Panel extends JPanel implements ActionListener, KeyListener {
         }
     }
 
+    private int getHighScore() {
+        int scorehigh = 0;
+        try {
+            File x = new File("highscore.txt");
+            Scanner sc = new Scanner(x);
+            while (sc.hasNext()) {
+                int high = Integer.parseInt(sc.next());
+                if (p.getScore() > high) {
+                    scorehigh = p.getScore();
+                } else {
+                    scorehigh = high;
+                }
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            new Death(0);
+        }
+        return scorehigh;
+    }
+
     public void keyTyped(KeyEvent e) {
     }
 
@@ -108,9 +147,9 @@ class Panel extends JPanel implements ActionListener, KeyListener {
         }
 
         // Cheat to get higher Score
-        if (e.getKeyCode() == 83) {
+        if (e.getKeyCode() == 70) {
             p.setScore();
-            score.setText("Score: " + p.getScore());
+            Score.score++;
         }
 
         // Change color of Snake head
