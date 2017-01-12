@@ -22,7 +22,7 @@ class Hallon {
     }
 
     void setScore() {
-        Score.score+=10;
+        Food.score+=10;
     }
 
     void setX(int x) {

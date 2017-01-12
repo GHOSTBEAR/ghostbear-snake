@@ -10,20 +10,22 @@ import java.util.Scanner;
 
 class Panel extends JPanel implements ActionListener, KeyListener {
     private Snake s;
-    private Score p;
+    private Food p;
     private Hallon h;
     private int direction = 37 + ((int) (Math.random() * 4));
     private Font ofl;
+    private Timer timer;
+    boolean gamePaused = false;
 
     Panel(int x) {
         this.setBackground(new Color(0, 0, 0));
         this.setLayout(new FlowLayout());
         addKeyListener(this);
         ofl = new Font("PressStart2P-Regular", Font.PLAIN, 8);
-        p = new Score();
+        p = new Food();
         s = new Snake();
         h = new Hallon();
-        Timer timer = new Timer(x, this);
+        timer = new Timer(x, this);
         timer.start();
     }
 
@@ -48,7 +50,7 @@ class Panel extends JPanel implements ActionListener, KeyListener {
             g.drawLine(0, i, 220, i);
         }
 
-        // Checks if Snake goes on Score
+        // Checks if Snake goes on Food
         if (s.getX() == p.getX() && s.getY() == p.getY()) {
             p.setScore();
             p.newX();
@@ -146,10 +148,10 @@ class Panel extends JPanel implements ActionListener, KeyListener {
             s.setBody();
         }
 
-        // Cheat to get higher Score
+        // Cheat to get higher Food
         if (e.getKeyCode() == 70) {
             p.setScore();
-            Score.score++;
+            Food.score++;
         }
 
         // Change color of Snake head
@@ -163,6 +165,17 @@ class Panel extends JPanel implements ActionListener, KeyListener {
             p.newX();
             p.newY();
             repaint();
+        }
+
+        // Pause button
+        if (e.getKeyCode() == 80) {
+            if (!gamePaused) {
+                timer.stop();
+                gamePaused = true;
+            } else {
+                timer.start();
+                gamePaused = false;
+            }
         }
     }
 

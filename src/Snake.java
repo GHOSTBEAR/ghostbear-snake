@@ -31,7 +31,7 @@ class Snake {
 
         if (y > 211 || x > 201 || y < 19 || x < 9) {
             System.out.println("Out of bounds");
-            new Death(Score.score);
+            new Death(Food.score);
         }
 
         for (int i = 0; i < body.size(); i++) {
@@ -39,7 +39,7 @@ class Snake {
             int b = oldY.get((oldY.size() - 2) - i);
             if (a == x && b == y) {
                 System.out.println("Killed in Action");
-                new Death(Score.score);
+                new Death(Food.score);
             }
         }
     }

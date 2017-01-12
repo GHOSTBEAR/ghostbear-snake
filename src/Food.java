@@ -1,9 +1,9 @@
 import java.awt.*;
 
-class Score {
+class Food {
     static int score;
     private int x, y;
-    Score(){
+    Food(){
         newX();
         newY();
     }
