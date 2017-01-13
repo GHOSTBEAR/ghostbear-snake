@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Panel extends JPanel implements ActionListener, KeyListener {
@@ -48,6 +49,17 @@ class Panel extends JPanel implements ActionListener, KeyListener {
         for (int i = 0; i < 230; i += 2) {
             g.setColor(new Color(50, 50, 50, 50));
             g.drawLine(0, i, 220, i);
+        }
+
+        ArrayList<Integer> tmpX = s.getOldX();
+        ArrayList<Integer> tmpY = s.getOldY();
+
+        for (int i = 0; i < s.getLength(); i++) {
+            if (tmpX.get(i) == p.getX() && tmpY.get(i) == p.getY()) {
+                p.newX(); p.newY();
+            } else if (tmpX.get(i) == h.getX() && tmpY.get(i) == h.getY()) {
+                h.newY(); h. newX();
+            }
         }
 
         // Checks if Snake goes on Food

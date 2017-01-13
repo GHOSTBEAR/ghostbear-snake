@@ -73,6 +73,18 @@ class Snake {
         return y;
     }
 
+    int getLength() {
+        return body.size();
+    }
+
+    ArrayList<Integer> getOldX() {
+        return oldX;
+    }
+
+    ArrayList<Integer> getOldY() {
+        return oldY;
+    }
+
     void setBody() {
         body.add("");
     }
