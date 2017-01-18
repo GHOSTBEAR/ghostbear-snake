@@ -56,9 +56,11 @@ class Panel extends JPanel implements ActionListener, KeyListener {
 
         for (int i = 0; i < s.getLength(); i++) {
             if (tmpX.get(i) == p.getX() && tmpY.get(i) == p.getY()) {
-                p.newX(); p.newY();
+                p.newX();
+                p.newY();
             } else if (tmpX.get(i) == h.getX() && tmpY.get(i) == h.getY()) {
-                h.newY(); h. newX();
+                h.newY();
+                h.newX();
             }
         }
 
