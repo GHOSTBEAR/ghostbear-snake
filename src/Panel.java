@@ -33,22 +33,32 @@ class Panel extends JPanel implements ActionListener, KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.requestFocus();
+
+        // Draw current score and high score
+        g.setColor(new Color(255,255,255));
+        g.setFont(new Font("PressStart2P-Regular", Font.PLAIN, 16));
+        g.drawString(String.valueOf(0), (240/2 - 50), (270/2));
+        g.drawString(String.valueOf(0), (240/2 + 50), (270/2));
+
+        // Draws snake, food and super food
         snake.paint(g);
         food.paint(g);
         superFood.paint(g);
 
-        g.setColor(new Color(0xA30000FF, true));
-        g.setFont(new Font("PressStart2P-Regular", Font.PLAIN, 16));
-        g.drawString(String.valueOf(0), 240/2 - 50, 270/2);
-        g.drawString(String.valueOf(0), 240/2 + 50, 270/2);
+        if (snake.outOfBounds()) {
+            System.out.println("You out!");
+            System.exit(25);
+        }
 
-        // Checks if Snake goes on Food
+        // Check if snake collides with food
         if (snake.collision(food)) {
             //food.setScore();
             food.setPosition(0,0);
             snake.grow();
         }
 
+        // TODO: Super food should appear when score is > 25
+        // Check if snake collides with super food
         if (snake.collision(superFood)) {
             //superFood.setScore();
             superFood.setPosition(0,0);

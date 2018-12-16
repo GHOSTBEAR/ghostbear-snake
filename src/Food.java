@@ -4,12 +4,12 @@ class Food extends Entity {
     //public static int score = 0;
 
     Food(){
+        setSize(10);
         setColor(new Color(255,0,0));
         this.setPosition(0,0);
     }
 
     void paint(Graphics graphics) {
-        System.out.println("Food: " + getX() + ", " + getY());
         graphics.setColor(getColor());
         graphics.fillRect(getX(), getY(), getSize(), getSize());
     }

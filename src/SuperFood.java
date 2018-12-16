@@ -5,6 +5,7 @@ class SuperFood extends Food {
     private boolean should = true;
 
     SuperFood() {
+        setSize(10);
         setColor(new Color(255, 181,0));
         this.setPosition(0,0);
     }
@@ -16,8 +17,6 @@ class SuperFood extends Food {
                 should = false;
             }
         }
-        System.out.println("SuperFood: " + getX() + ", " + getY());
-
         graphics.setColor(Color.ORANGE);
         graphics.fillRect(getX(), getY(), getSize(), getSize());
     }

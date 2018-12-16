@@ -20,12 +20,13 @@ class Snake {
     }
 
     void paint(Graphics g) {
+        System.out.println(bodies.size());
         bodies.forEach(b -> b.paint(g));
     }
 
     boolean outOfBounds() {
         SnakeBody first = bodies.get(0);
-        return first.getY() > 211 || first.getX() > 201 || first.getY() < 19 || first.getX() < 9;
+        return first.getY() >= 270 || first.getX() >= 240 || first.getY() < 0 || first.getX() < 0;
     }
 
     boolean collisionWithSelf() {
