@@ -12,17 +12,17 @@ class Panel extends JPanel implements ActionListener, KeyListener {
     private Snake snake;
     private Food food;
     private SuperFood superFood;
-    private int direction = 37 + ((int) (Math.random() * 4));
-    private Font ofl;
+    private int direction = 0;
     private Timer timer;
-    boolean gamePaused = false;
 
-    Panel(int x) {
-        System.out.println("Starting...");
-        this.setBackground(new Color(0, 0, 0));
-        this.setLayout(new FlowLayout());
+    Panel() {
+        setup();
+    }
+
+    private void setup() {
+        setBackground(new Color(0, 0, 0));
+        setLayout(new FlowLayout());
         addKeyListener(this);
-        ofl = new Font("PressStart2P-Regular", Font.PLAIN, 8);
         food = new Food();
         superFood = new SuperFood();
         snake = new Snake(0,0);
@@ -33,31 +33,25 @@ class Panel extends JPanel implements ActionListener, KeyListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.requestFocus();
-        System.out.println("Repaint");
         snake.paint(g);
+        food.paint(g);
+        superFood.paint(g);
 
-        g.setFont(ofl);
-        g.drawString("Score: " + food.getScore(), 10, 14);
-        g.drawString("Highscore: " + getHighScore(), 100, 14);
-
-        g.setColor(new Color(0, 255, 0));
-        g.drawRect(9, 19, 201, 201);
-
-        for (int i = 0; i < 230; i += 2) {
-            g.setColor(new Color(50, 50, 50, 50));
-            g.drawLine(0, i, 220, i);
-        }
+        g.setColor(new Color(0xA30000FF, true));
+        g.setFont(new Font("PressStart2P-Regular", Font.PLAIN, 16));
+        g.drawString(String.valueOf(0), 240/2 - 50, 270/2);
+        g.drawString(String.valueOf(0), 240/2 + 50, 270/2);
 
         // Checks if Snake goes on Food
         if (snake.collision(food)) {
-            food.setScore();
-            food.setPostion(0,0);
+            //food.setScore();
+            food.setPosition(0,0);
             snake.grow();
         }
 
         if (snake.collision(superFood)) {
-            superFood.setScore();
-            superFood.setPostion(0,0);
+            //superFood.setScore();
+            superFood.setPosition(0,0);
             snake.grow();
         }
     }
@@ -66,50 +60,47 @@ class Panel extends JPanel implements ActionListener, KeyListener {
         // Making Snake move right
         if (direction == 39) {
             snake.move(10, 0);
-            repaint();
         }
 
         // Making Snake move left
         if (direction == 37) {
             snake.move(-10, 0);
-            repaint();
         }
 
         // Making Snake move up
         if (direction == 38) {
             snake.move(0,-10);
-            repaint();
         }
 
         // Making Snake move down
         if (direction == 40) {
             snake.move(0,10);
-            repaint();
         }
+
+        repaint();
     }
 
-    private int getHighScore() {
-        int scorehigh = 0;
-        try {
-            File x = new File("highscore.txt");
-            Scanner sc = new Scanner(x);
-            while (sc.hasNext()) {
-                int high = Integer.parseInt(sc.next());
-                if (food.getScore() > high) {
-                    scorehigh = food.getScore();
-                } else {
-                    scorehigh = high;
-                }
-            }
-            sc.close();
-        } catch (FileNotFoundException e) {
-            new Death(0);
-        }
-        return scorehigh;
-    }
+//    private int getHighScore() {
+//        int scorehigh = 0;
+//        try {
+//            File x = new File("highscore.txt");
+//            Scanner sc = new Scanner(x);
+//            while (sc.hasNext()) {
+//                int high = Integer.parseInt(sc.next());
+//                if (food.getScore() > high) {
+//                    scorehigh = food.getScore();
+//                } else {
+//                    scorehigh = high;
+//                }
+//            }
+//            sc.close();
+//        } catch (FileNotFoundException e) {
+//            new Death(0);
+//        }
+//        return scorehigh;
+//    }
 
-    public void keyTyped(KeyEvent e) {
-    }
+    public void keyTyped(KeyEvent e) {}
 
     public void keyPressed(KeyEvent e) {
         // Make Snake go right
@@ -138,10 +129,10 @@ class Panel extends JPanel implements ActionListener, KeyListener {
         }
 
         // Cheat to get higher Food
-        if (e.getKeyCode() == 70) {
-            food.setScore();
-            Food.score++;
-        }
+//        if (e.getKeyCode() == 70) {
+//            food.setScore();
+//            Food.score++;
+//        }
 
         // Change color of Snake head
 //        if (e.getKeyCode() == 67) {
@@ -157,18 +148,16 @@ class Panel extends JPanel implements ActionListener, KeyListener {
 //        }
 
         // Pause button
-        if (e.getKeyCode() == 80) {
-            if (!gamePaused) {
-                timer.stop();
-                gamePaused = true;
-            } else {
-                timer.start();
-                gamePaused = false;
-            }
-        }
+//        if (e.getKeyCode() == 80) {
+//            if (!gamePaused) {
+//                timer.stop();
+//                gamePaused = true;
+//            } else {
+//                timer.start();
+//                gamePaused = false;
+//            }
+//        }
     }
 
-    public void keyReleased(KeyEvent e) {
-
-    }
+    public void keyReleased(KeyEvent e) {}
 }
