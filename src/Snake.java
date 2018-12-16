@@ -1,99 +1,126 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
-class Snake {
-    private ArrayList<String> body = new ArrayList<>();
-    private ArrayList<Integer> oldX = new ArrayList<>();
-    private ArrayList<Integer> oldY = new ArrayList<>();
-    private int r, g, b;
-    private int x, y;
 
-    Snake() {
-        r = 0;
-        g = 255;
-        b = 0;
-        x = 100;
-        y = 100;
-    }
+abstract class Entity {
+    private int x;
+    private int y;
+    private int size;
+    private Color color;
 
-    void paint(Graphics g) {
-        g.setColor(new Color(r, this.g, b));
-        g.fillRect(x, y, 9, 9);
-        g.setColor(new Color(0, 255, 0));
-        for (int i = 0; i < body.size(); i++) {
-            int a = oldX.get((oldX.size() - 2) - i);
-            int b = oldY.get((oldY.size() - 2) - i);
-            g.fillRect(a, b, 9, 9);
-        }
-    }
+    abstract void paint(Graphics graphics);
 
-    void check() {
-
-        if (y > 211 || x > 201 || y < 19 || x < 9) {
-            System.out.println("Out of bounds");
-            new Death(Food.score);
-        }
-
-        for (int i = 0; i < body.size(); i++) {
-            int a = oldX.get((oldX.size() - 2) - i);
-            int b = oldY.get((oldY.size() - 2) - i);
-            if (a == x && b == y) {
-                System.out.println("Killed in Action");
-                new Death(Food.score);
-            }
-        }
-    }
-
-    void clean() {
-        for (int i = oldX.size() - body.size() - 5; i > 0; i--) {
-            oldX.remove(i);
-            oldY.remove(i);
-        }
-    }
-
-    void setColor() {
-        r = (int) (Math.random() * 255);
-        b = (int) (Math.random() * 255);
-        g = (int) (Math.random() * 255);
-    }
-
-    void setX(int x) {
-        this.x += x;
-    }
-
-    int getX() {
+    public int getX() {
         return x;
     }
 
-    void setY(int y) {
-        this.y += y;
-    }
-
-    int getY() {
+    public int getY() {
         return y;
     }
 
-    int getLength() {
-        return body.size();
+    public int getSize() {
+        return size;
     }
 
-    ArrayList<Integer> getOldX() {
-        return oldX;
+    public Color getColor() {
+        return color;
     }
 
-    ArrayList<Integer> getOldY() {
-        return oldY;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
-    void setBody() {
-        body.add("");
+    public void setSize(int size) {
+        this.size = size;
     }
 
-    void setOldX() {
-        oldX.add(x);
+    public void setPostion(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    void setOldY() {
-        oldY.add(y);
+    public boolean collision(Entity other) {
+        return x == other.x && y == other.y;
+    }
+}
+
+class SnakeBody extends Entity {
+
+    SnakeBody(int x, int y) {
+        setPostion(x, y);
+        setSize(10);
+        setColor(new Color(0, 255, 0));
+    }
+
+    void paint(Graphics graphics) {
+        graphics.setColor(getColor());
+        graphics.fillRect(getY(), getY(), getSize(), getSize());
+    }
+
+    @Override
+    public void setPostion(int x, int y) {
+        super.setPostion(getX() + x, getY() + y);
+    }
+
+    void inherit(SnakeBody inherit) {
+        setPostion(inherit.getX(), inherit.getY());
+    }
+}
+
+class Snake {
+    private List<SnakeBody> bodies = new ArrayList<>();
+
+    Snake(int x, int y) {
+        bodies.add(new SnakeBody(x, y));
+    }
+
+    void move(int x, int y) {
+        for (int i = bodies.size() - 1; i >= 1; i--) {
+            bodies.get(i).inherit(bodies.get(--i));
+        }
+        bodies.get(0).setPostion(x, y);
+    }
+
+    void paint(Graphics g) {
+        bodies.forEach(b -> b.paint(g));
+    }
+
+    boolean outOfBounds() {
+        SnakeBody first = bodies.get(0);
+        if (first.getY() > 211 || first.getX() > 201 || first.getY() < 19 || first.getX() < 9) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean collisionWithSelf() {
+        for (int i = 1; i < bodies.size(); i++) {
+            if (bodies.get(0).collision(bodies.get(--i))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    boolean collision(Entity other) {
+        for (SnakeBody b : bodies) {
+            if (b.collision(other)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void grow() {
+        SnakeBody last = bodies.get(bodies.size() - 1);
+        SnakeBody newGuy = new SnakeBody(0,0);
+        newGuy.inherit(last);
+        bodies.add(newGuy);
+    }
+
+    void clean() {
+        bodies.clear();
+        bodies.add(new SnakeBody(10, 10));
     }
 }

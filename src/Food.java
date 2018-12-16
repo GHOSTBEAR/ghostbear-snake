@@ -1,16 +1,16 @@
 import java.awt.*;
 
-class Food {
-    static int score;
-    private int x, y;
+class Food extends Entity {
+    protected static int score;
+
     Food(){
-        newX();
-        newY();
+        setColor(new Color(255,0,0));
+        this.setPostion(0,0);
     }
 
-    void paint(Graphics g) {
-        g.setColor(Color.RED);
-        g.fillRect(x, y, 9, 9);
+    void paint(Graphics graphics) {
+        graphics.setColor(getColor());
+        graphics.fillRect(getX(), getY(), getSize(), getSize());
     }
 
     int getScore() {
@@ -21,19 +21,10 @@ class Food {
         score++;
     }
 
-    int getX() {
-        return x;
-    }
-
-    int getY() {
-        return y;
-    }
-
-    void newX() {
+    @Override
+    public void setPostion(int x, int y) {
         x = 10 + (10 * (int) (Math.random() * 19));
-    }
-
-    void newY() {
         y = 20 + (10 * (int) (Math.random() * 19));
+        super.setPostion(x, y);
     }
 }
