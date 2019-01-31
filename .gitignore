@@ -1,3 +1,6 @@
 
 highscore.txt
 out/*
+*.iml
+*.xml
+.idea/*
