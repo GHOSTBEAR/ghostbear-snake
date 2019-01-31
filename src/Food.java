@@ -1,23 +1,35 @@
 import java.awt.*;
 
-class Food extends Entity {
-    //public static int score = 0;
+public class Food extends Entity implements Drawable, Movable {
+    private int points;
 
-    Food(){
-        setSize(10);
-        setColor(new Color(255,0,0));
-        this.setPosition(0,0);
-    }
-
-    void paint(Graphics graphics) {
-        graphics.setColor(getColor());
-        graphics.fillRect(getX(), getY(), getSize(), getSize());
+    Food(Vector vector, Bound bound) {
+        super(vector, bound, Color.green);
+        move();
+        setPoints(points);
     }
 
     @Override
-    public void setPosition(int x, int y) {
-        x = 10 + (10 * (int) (Math.random() * 19));
-        y = 20 + (10 * (int) (Math.random() * 19));
-        super.setPosition(x, y);
+    public void draw(Graphics graphics) {
+        graphics.setColor(getColor());
+        graphics.fillRect(getVector().x, getVector().y, getSize(), getSize());
+    }
+
+    @Override
+    public void move(int x, int y) {
+        System.out.println("Use move() instead!");
+    }
+
+    public void move() {
+        getVector().x = getBound().left + (10 * (int) (Math.random() * ((getBound().right - getBound().left) / 10)));
+        getVector().y = getBound().top + (10 * (int) (Math.random() * ((getBound().bottom - getBound().top) / 10)));
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 }

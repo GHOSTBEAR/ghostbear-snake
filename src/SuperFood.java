@@ -1,24 +1,23 @@
 import java.awt.*;
 
-class SuperFood extends Food {
+public class SuperFood extends Food {
+
     private long start = System.currentTimeMillis();
     private boolean should = true;
 
-    SuperFood() {
-        setSize(10);
-        setColor(new Color(255, 181,0));
-        this.setPosition(0,0);
+    SuperFood(Vector vector, Bound bound) {
+        super(vector, bound);
+        setPoints(2);
     }
 
-    void paint(Graphics graphics) {
+    @Override
+    public void draw(Graphics graphics) {
         if (System.currentTimeMillis() - start > 20000) {
             if(should) {
-                setPosition(0,0);
+                move();
                 should = false;
             }
         }
-        graphics.setColor(Color.ORANGE);
-        graphics.fillRect(getX(), getY(), getSize(), getSize());
+        super.draw(graphics);
     }
-
 }

@@ -4,70 +4,64 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
-class Panel extends JPanel implements ActionListener, KeyListener {
+public class Panel extends JPanel implements ActionListener, KeyListener {
+    private Bound bound;
     private Snake snake;
     private Food food;
     private SuperFood superFood;
     private int direction = 0;
     private Timer timer;
 
-    Panel() {
-        setup();
-    }
 
-    private void setup() {
-        setBackground(new Color(0, 0, 0));
+    public Panel() {
+        setBackground(Color.black);
         setLayout(new FlowLayout());
         addKeyListener(this);
-        food = new Food();
-        superFood = new SuperFood();
-        snake = new Snake(0,0);
+        bound = new Bound(0, 240, 240, 0);
+        snake = new Snake(new Vector(10,10), bound, false);
+        food = new Food(new Vector(-10, -10), bound);
+        superFood = new SuperFood(new Vector(-10, -10), bound);
         timer = new Timer(250, this);
         timer.start();
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
         this.requestFocus();
 
-        // Draw current score and high score
-        g.setColor(new Color(255,255,255));
-        g.setFont(new Font("PressStart2P-Regular", Font.PLAIN, 16));
-        g.drawString(String.valueOf(0), (240/2 - 50), (270/2));
-        g.drawString(String.valueOf(0), (240/2 + 50), (270/2));
+        food.draw(graphics);
+        superFood.draw(graphics);
+        snake.getSnake().draw(graphics);
+        snake.draw(graphics);
 
-        // Draws snake, food and super food
-        snake.paint(g);
-        food.paint(g);
-        superFood.paint(g);
-
-        if (snake.outOfBounds()) {
+        if(snake.outOfBounds()) {
             System.out.println("You out!");
-            System.exit(25);
+            System.exit(1);
         }
 
-        // Check if snake collides with food
-        if (snake.collision(food)) {
-            //food.setScore();
-            food.setPosition(0,0);
+        if (food.collision(snake)) {
+            System.out.println("Snake grew!");
+            food.move();
             snake.grow();
         }
 
-        // TODO: Super food should appear when score is > 25
-        // Check if snake collides with super food
-        if (snake.collision(superFood)) {
-            //superFood.setScore();
-            superFood.setPosition(0,0);
+        if (superFood.collision(snake)) {
+            System.out.println("Snake grew!");
+            superFood.move();
             snake.grow();
+        }
+
+        if (snake.collisionWithBody()) {
+            System.out.println("Don't try eat yourself!");
+            System.exit(1);
         }
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         // Making Snake move right
+        System.out.println(". " + direction);
         if (direction == 39) {
             snake.move(10, 0);
         }
@@ -90,30 +84,15 @@ class Panel extends JPanel implements ActionListener, KeyListener {
         repaint();
     }
 
-//    private int getHighScore() {
-//        int scorehigh = 0;
-//        try {
-//            File x = new File("highscore.txt");
-//            Scanner sc = new Scanner(x);
-//            while (sc.hasNext()) {
-//                int high = Integer.parseInt(sc.next());
-//                if (food.getScore() > high) {
-//                    scorehigh = food.getScore();
-//                } else {
-//                    scorehigh = high;
-//                }
-//            }
-//            sc.close();
-//        } catch (FileNotFoundException e) {
-//            new Death(0);
-//        }
-//        return scorehigh;
-//    }
+    @Override
+    public void keyTyped(KeyEvent e) {
 
-    public void keyTyped(KeyEvent e) {}
+    }
 
+    @Override
     public void keyPressed(KeyEvent e) {
         // Make Snake go right
+        System.out.println(e.getKeyCode());
         if (e.getKeyCode() == 39 || e.getKeyCode() == 68) {
             direction = 39;
         }
@@ -169,5 +148,8 @@ class Panel extends JPanel implements ActionListener, KeyListener {
 //        }
     }
 
-    public void keyReleased(KeyEvent e) {}
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
 }

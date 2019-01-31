@@ -1,58 +1,54 @@
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.List;
 
+public class Snake extends Entity implements Drawable, Movable {
 
-class Snake {
-    private List<SnakeBody> bodies = new ArrayList<>();
+    private static List<Snake> snake = new DrawableList<>();
 
-    Snake(int x, int y) {
-        bodies.add(new SnakeBody(x, y));
+    Snake(Vector vector, Bound bound, boolean child) {
+        super(vector, bound, Color.white);
+        if (!child) snake.add(this);
     }
 
-    void move(int x, int y) {
-        if (bodies.size() > 1) {
-            for (int i = bodies.size() - 1; i > 0; i--) {
-                bodies.get(i).inherit(bodies.get(i - 1));
+    @Override
+    public void draw(Graphics graphics) {
+        graphics.setColor(getColor());
+        graphics.fillRect(getVector().x, getVector().y, getSize(), getSize());
+    }
+
+    @Override
+    public void move(int x, int y) {
+        if (snake.size() > 1) {
+            for (int i = snake.size() - 1; i >= 1; i--) {
+                snake.get(i).inherit(snake.get(i - 1));
             }
         }
-        bodies.get(0).setPosition(x, y);
+        getVector().move(x, y);
     }
 
-    void paint(Graphics g) {
-        System.out.println(bodies.size());
-        bodies.forEach(b -> b.paint(g));
-    }
-
-    boolean outOfBounds() {
-        SnakeBody first = bodies.get(0);
-        return first.getY() >= 270 || first.getX() >= 240 || first.getY() < 0 || first.getX() < 0;
-    }
-
-    boolean collisionWithSelf() {
-        for (int i = 1; i < bodies.size(); i++) {
-            if (bodies.get(0).collision(bodies.get(--i))) {
+    boolean collisionWithBody() {
+        if (snake.size() == 1) return false;
+        Snake head = snake.get(0);
+        for (int i = 1; i < snake.size(); i++) {
+            if (head.collision(snake.get(i))) {
                 return true;
             }
         }
         return false;
     }
 
-    boolean collision(Entity other) {
-        for (SnakeBody b : bodies) {
-            if (b.collision(other)) {
-                return true;
-            }
-        }
-        return false;
+    public DrawableList<Snake> getSnake() {
+        return (DrawableList<Snake>) snake;
     }
 
     void grow() {
-        bodies.add(new SnakeBody(-10,-10));
+        snake.add(new Snake(new Vector(-10, -10), getBound(), true));
     }
 
-    void clean() {
-        bodies.clear();
-        bodies.add(new SnakeBody(10, 10));
+    void inherit (Snake parent) {
+        Vector temp = new Vector(parent.getVector().x, parent.getVector().y);
+        setVector(temp);
     }
 }
+
+

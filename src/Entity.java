@@ -1,43 +1,47 @@
 import java.awt.*;
 
-public abstract class Entity {
-    private int x;
-    private int y;
-    private int size;
-    private Color color;
+public class Entity {
+    private Vector vector;
+    private Bound bound;
+    private Color color = Color.white;
+    private int size = 10;
 
-    abstract void paint(Graphics graphics);
-
-    public int getX() {
-        return x;
+    Entity(Vector vector, Bound bound) {
+        this.vector = vector;
+        this.bound = bound;
     }
 
-    public int getY() {
-        return y;
+    Entity(Vector vector, Bound bound, Color color) {
+        this.vector = vector;
+        this.color = color;
+        this.bound = bound;
     }
 
-    public int getSize() {
-        return size;
+    public Bound getBound() {
+        return bound;
     }
 
     public Color getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public int getSize() {
+        return size;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public Vector getVector() {
+        return vector;
     }
 
-    public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public void setVector(Vector vector) {
+        this.vector = vector;
     }
 
-    public boolean collision(Entity other) {
-        return x == other.x && y == other.y;
+    boolean outOfBounds() {
+        return vector.y > bound.bottom || vector.x > bound.right || vector.y < bound.top || vector.x < bound.left;
+    }
+
+    boolean collision(Entity other) {
+        return vector.x == other.vector.x && vector.y == other.vector.y;
     }
 }
