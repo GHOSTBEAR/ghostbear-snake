@@ -6,7 +6,7 @@ public class Food extends Entity implements Drawable, Movable {
     Food(Vector vector, Bound bound) {
         super(vector, bound, Color.green);
         move();
-        setPoints(points);
+        setPoints(1);
     }
 
     @Override

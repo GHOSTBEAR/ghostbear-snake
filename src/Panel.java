@@ -8,10 +8,10 @@ import java.awt.event.KeyListener;
 public class Panel extends JPanel implements ActionListener, KeyListener {
     private Bound bound;
     private Snake snake;
-    private Food food;
-    private SuperFood superFood;
+    private Food[] foods = new Food[2];
     private int direction = 0;
     private Timer timer;
+    private HighScore highScore = HighScore.getInstance();
 
 
     public Panel() {
@@ -20,8 +20,8 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
         bound = new Bound(0, 240, 240, 0);
         snake = new Snake(new Vector(10,10), bound, false);
-        food = new Food(new Vector(-10, -10), bound);
-        superFood = new SuperFood(new Vector(-10, -10), bound);
+        foods[0] = new Food(new Vector(-10, -10), bound);
+        foods[1] = new SuperFood(new Vector(-10, -10), bound);
         timer = new Timer(250, this);
         timer.start();
     }
@@ -30,26 +30,28 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         super.paintComponent(graphics);
         this.requestFocus();
 
-        food.draw(graphics);
-        superFood.draw(graphics);
+        graphics.setColor(Color.orange);
+        graphics.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 16));
+        graphics.drawString(String.valueOf(highScore.getScore()), 10,10);
+        graphics.drawString(String.valueOf(highScore.read()), 50,10);
+
+        for (Food food : foods) {
+            food.draw(graphics);
+            if (food.collision(snake)) {
+                System.out.println("Snake grew!");
+                while (food.collision(snake)) {
+                    food.move();
+                }
+                highScore.add(food.getPoints());
+                snake.grow();
+            }
+        }
         snake.getSnake().draw(graphics);
         snake.draw(graphics);
 
         if(snake.outOfBounds()) {
             System.out.println("You out!");
             System.exit(1);
-        }
-
-        if (food.collision(snake)) {
-            System.out.println("Snake grew!");
-            food.move();
-            snake.grow();
-        }
-
-        if (superFood.collision(snake)) {
-            System.out.println("Snake grew!");
-            superFood.move();
-            snake.grow();
         }
 
         if (snake.collisionWithBody()) {
@@ -61,7 +63,6 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Making Snake move right
-        System.out.println(". " + direction);
         if (direction == 39) {
             snake.move(10, 0);
         }
